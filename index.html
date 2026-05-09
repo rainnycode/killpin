@@ -269,7 +269,7 @@ function startMoveLoop(){
 // ── ATTACK ────────────────────────────────────────────────────
 function doAtk(mn,mx,type){
   if(G.over||G.defeatSeq||G.atkCD||G.hitLock)return;
-  if(!['idle','walk'].includes(STATE))return;
+  if(Math.abs(G.x-62)>22)return;
   G.atkCD=true;
   G.pendingDmg={min:mn,max:mx,type};
   enter('atk_startup');
@@ -435,7 +435,8 @@ function resetGame(){
     animInt:null,kAnimInt:null,moveInt:null,gameInt:null,aiTO:null,
     atkCD:false,hitLock:false,defeatSeq:false,pendingDmg:{min:0,max:0,type:''}};
   updateHP();
-  setTimeout(()=>{
+  ri.src=SPR.r.idle[0];
+setTimeout(()=>{
     enter('idle');
     playKAnim(SPR.k.idle,2,true);
     announce('FIGHT!','San Francisco, PTY',startGame);
