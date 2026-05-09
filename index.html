@@ -39,7 +39,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;touch-action:no
 #ann-s{font-family:monospace;font-size:10px;color:#aaa;letter-spacing:3px;margin-top:4px;opacity:0;transition:opacity .2s .1s;}
 #ann-s.s{opacity:1;}
 #block-ind{display:none;}
-#ctrl{background:#fafafa;border-top:1px solid #e8e8e8;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px 16px;}
+#ctrl{position:fixed;bottom:0;left:0;right:0;background:#fafafa;border-top:1px solid #e8e8e8;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px 16px;}
 .cc{display:flex;flex-direction:column;gap:7px;}
 .brow{display:flex;gap:7px;}
 .gb{flex:1;height:52px;background:#f0f0f0;border:1px solid #d8d8d8;color:#555;font-family:monospace;font-size:10px;
@@ -100,7 +100,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;touch-action:no
     </div>
     <div class="cc">
       <div class="brow">
-        <button class="gb atk" ontouchstart="doAtk(8,14,'punch')" onmousedown="doAtk(8,14,'punch')"><span class="gi">👊</span><span>punch</span></button>
         <button class="gb atk" ontouchstart="doAtk(22,32,'special')" onmousedown="doAtk(22,32,'special')"><span class="gi">✊</span><span>nudillo</span></button>
       </div>
     </div>
@@ -284,7 +283,7 @@ function rainnHit(dmg){
   G.hp[0]=Math.max(0,G.hp[0]-d);
   updateHP();spawnDmgNum(d,'left');
   if(G.hp[0]<=0){G.over=true;stopAll();triggerDefeat();return;}
-  G.x=Math.max(3,G.x-7);
+  if(!G.blocking)G.x=Math.max(3,G.x-7);
   $('rainn-el').style.left=G.x+'%';
   if(!G.blocking){
     flash(.3);shake('light');
@@ -330,7 +329,7 @@ function schedAI(){
   G.aiTO=setTimeout(()=>{
     if(!G.over)kingAct();
     schedAI();
-  },1000+Math.random()*1800);
+  },700+Math.random()*1400);
 }
 function kingAct(){
   if(KSTATE==='atk')return;
