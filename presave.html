@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#C94040">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=DM+Serif+Display:ital@1&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :root {
+    --red: #C94040;
+    --white: #ffffff;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html, body {
+    height: 100%;
+    overscroll-behavior: none;
+  }
+
+  body {
+    background: var(--red);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Sans', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 100%;
+    max-width: 430px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    padding: 
+      calc(44px + var(--safe-top))
+      24px
+      calc(32px + var(--safe-bottom));
+    position: relative;
+  }
+
+  .top-header {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-bottom: auto;
+  }
+
+  .top-location {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+  }
+
+  .top-sub {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    color: rgba(255,255,255,0.28);
+    text-transform: uppercase;
+  }
+
+  .center-block {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-bottom: 28px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 5px 10px;
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7);
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-family: 'Instrument Sans', sans-serif;
+    margin-bottom: 16px;
+    border-radius: 1px;
+  }
+
+  .song-title {
+    font-family: 'DM Sans', -apple-system, 'Helvetica Neue', sans-serif;
+    font-size: clamp(80px, 23vw, 108px);
+    font-weight: 500;
+    color: #fff;
+    line-height: 0.88;
+    letter-spacing: -0.03em;
+    text-transform: lowercase;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .song-japanese {
+    font-size: 10px;
+    color: rgba(255,255,255,0.32);
+    letter-spacing: 0.18em;
+    margin-top: 10px;
+    margin-left: 3px;
+    font-family: 'Instrument Sans', sans-serif;
+    font-weight: 400;
+  }
+
+  .artist-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    margin-top: 14px;
+    margin-left: 3px;
+    letter-spacing: 0.05em;
+    text-transform: lowercase;
+  }
+
+  .binary-line {
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 7px;
+    color: rgba(255,255,255,0.13);
+    letter-spacing: 0.04em;
+    line-height: 1.8;
+    margin: 24px 0 20px;
+    word-break: break-all;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .description {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+  }
+
+  .cta-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .btn-presave {
+    width: 100%;
+    padding: 18px 20px;
+    background: #fff;
+    color: #C94040;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.12s, color 0.12s, transform 0.08s;
+    -webkit-touch-callout: none;
+  }
+
+  .btn-presave:active {
+    transform: scale(0.985);
+    background: #1DB954;
+    color: #fff;
+  }
+
+  @media (hover: hover) {
+    .btn-presave:hover {
+      background: #1DB954;
+      color: #fff;
+    }
+  }
+
+  .btn-secondary {
+    width: 100%;
+    padding: 14px 20px;
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    border: 1px solid rgba(255,255,255,0.18);
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    transition: border-color 0.12s, color 0.12s, transform 0.08s;
+    -webkit-touch-callout: none;
+  }
+
+  .btn-secondary:active {
+    transform: scale(0.985);
+    border-color: rgba(255,255,255,0.5);
+    color: #fff;
+  }
+
+  @media (hover: hover) {
+    .btn-secondary:hover {
+      border-color: rgba(255,255,255,0.45);
+      color: #fff;
+    }
+  }
+
+  .bottom-bar {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-top: 40px;
+  }
+
+  .bottom-left {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .bottom-brand {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+  }
+
+  .bottom-hiring {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 8.5px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    color: rgba(255,255,255,0.14);
+    text-transform: uppercase;
+  }
+
+  .bottom-right {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 11px;
+    color: rgba(255,255,255,0.18);
+  }
+
+  @media (min-height: 800px) {
+    .page { padding-top: calc(52px + var(--safe-top)); }
+    .center-block { padding-bottom: 36px; }
+    .cta-section { margin-top: 32px; }
+    .bottom-bar { margin-top: 48px; }
+  }
+
+  @media (max-height: 668px) {
+    .page { padding-top: calc(32px + var(--safe-top)); }
+    .binary-line { margin: 16px 0 14px; }
+    .song-title { font-size: 72px; }
+    .center-block { padding-bottom: 20px; }
+    .bottom-bar { margin-top: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top-header">
+    <div class="top-location">San Francisco, PTY</div>
+    <div class="top-sub">Pre-save now</div>
+  </div>
+
+  <div class="center-block">
+    <div class="tag">New single</div>
+    <div class="song-title">nudillo</div>
+    <div class="song-japanese">ナックル</div>
+    <div class="artist-name">rainn</div>
+
+    <div class="binary-line">01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111 00100000 01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111 00100000 01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111</div>
+
+    <div class="description">
+      Guarda la canción antes del lanzamiento.<br>
+      Aparece directo en tu biblioteca el día que salga.
+    </div>
+
+    <div class="cta-section">
+
+      <!-- Botón 1: Pre-save directo vía OAuth de Spotify -->
+      <a class="btn-presave"
+         href="https://accounts.spotify.com/authorize?client_id=949a9d817b514ea1b74fdf9991c71f1a&redirect_uri=https%3A%2F%2Fsmartlink-api.amuse.io%2Fpre-saves%2Fcallback&scope=user-read-private+user-read-email+user-library-modify+user-follow-modify&response_type=code&state=eyJyZWxlYXNlX2lkIjogNDYxOTk5NH0%3D"
+         target="_blank" rel="noopener">
+        Pre-save en Spotify
+        <span>→</span>
+      </a>
+
+      <!-- Botón 2: Deeplink a app de Amuse, fallback a web -->
+      <a class="btn-secondary"
+         href="#"
+         id="btn-amuse">
+        Todas las plataformas <span>↗</span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="bottom-left">
+      <div class="bottom-brand">1080 Colorado</div>
+      <div class="bottom-hiring">now hiring</div>
+    </div>
+    <div class="bottom-right">panama</div>
+  </div>
+
+</div>
+
+<script>
+  // Deeplink al botón "Todas las plataformas"
+  // Intenta abrir la app de Amuse; si no está instalada, cae al link web
+  document.getElementById('btn-amuse').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    var deeplink  = 'amuse://track/rainn-nudillo';
+    var fallback  = 'https://share.amuse.io/track/rainn-nudillo';
+    var fallbackTimer;
+
+    // En iOS/Android: si el deeplink no abre la app en 1.2s, redirige al navegador
+    fallbackTimer = setTimeout(function() {
+      window.location.href = fallback;
+    }, 1200);
+
+    // Si la página pierde el foco, la app se abrió → cancelar fallback
+    window.addEventListener('blur', function onBlur() {
+      clearTimeout(fallbackTimer);
+      window.removeEventListener('blur', onBlur);
+    }, { once: true });
+
+    // Lanzar deeplink
+    window.location.href = deeplink;
+  });
+</script>
+
+</body>
+</html>
