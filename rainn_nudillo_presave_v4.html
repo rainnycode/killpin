@@ -308,12 +308,11 @@
     <div class="cta-section">
 
       <!-- Botón 1: Pre-save directo vía OAuth de Spotify -->
-      <a class="btn-presave"
-         href="https://accounts.spotify.com/authorize?client_id=949a9d817b514ea1b74fdf9991c71f1a&redirect_uri=https%3A%2F%2Fsmartlink-api.amuse.io%2Fpre-saves%2Fcallback&scope=user-read-private+user-read-email+user-library-modify+user-follow-modify&response_type=code&state=eyJyZWxlYXNlX2lkIjogNDYxOTk5NH0%3D"
-         target="_blank" rel="noopener">
-        Pre-save en Spotify
-        <span>→</span>
-      </a>
+      <a class="btn-presave" href="#"
+   onclick="setTimeout(()=>{window.location.href='https://accounts.spotify.com/authorize?client_id=949a9d817b514ea1b74fdf9991c71f1a&redirect_uri=https%3A%2F%2Fsmartlink-api.amuse.io%2Fpre-saves%2Fcallback&scope=user-read-private+user-read-email+user-library-modify+user-follow-modify&response_type=code&state=eyJyZWxlYXNlX2lkIjogNDYxOTk5NHQ%3D'},500);window.location.href='spotify://'">
+  Pre-save en Spotify
+  <span>→</span>
+</a>
 
       <!-- Botón 2: Deeplink a app de Amuse, fallback a web -->
       <a class="btn-secondary"
