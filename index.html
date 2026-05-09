@@ -8,7 +8,7 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{width:100%;height:100%;overflow:hidden;background:#fff;touch-action:none;}
 #g{display:flex;flex-direction:column;width:100vw;height:100vh;}
-#arena{flex:1;position:relative;overflow:hidden;background:#fff;}
+#arena{flex:1;position:relative;overflow:hidden;background:#fff;margin-bottom:10px;user-select:none;-webkit-user-select:none;touch-action:none;}
 #ground-line{position:absolute;bottom:20%;left:0;right:0;height:2px;background:rgba(0,0,0,0.07);}
 #ground-grad{position:absolute;bottom:0;left:0;right:0;height:22%;background:linear-gradient(180deg,transparent,rgba(0,0,0,0.04));}
 #def-vig{position:absolute;inset:0;z-index:19;pointer-events:none;opacity:0;
@@ -27,7 +27,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;touch-action:no
 #rainn-el{position:absolute;bottom:20%;left:8%;z-index:10;display:flex;align-items:flex-end;}
 #king-el{position:absolute;bottom:20%;right:6%;z-index:10;display:flex;align-items:flex-end;}
 #ri{image-rendering:pixelated;height:clamp(110px,28vh,180px);width:auto;max-width:200px;filter:drop-shadow(1px 3px 5px rgba(0,0,0,0.15));}
-#ki{image-rendering:pixelated;height:clamp(130px,32vh,200px);filter:drop-shadow(1px 3px 5px rgba(0,0,0,0.15));transform:scaleX(-1);object-position:bottom;object-fit:contain;vertical-align:bottom;}
+#ki{image-rendering:pixelated;height:clamp(160px,40vh,240px);filter:drop-shadow(1px 3px 5px rgba(0,0,0,0.15));transform:scaleX(-1);object-position:bottom;object-fit:contain;vertical-align:bottom;display:block;}
 .fshadow{position:absolute;bottom:19.5%;z-index:9;border-radius:50%;background:radial-gradient(ellipse,rgba(0,0,0,0.15),transparent);}
 #sh-r{width:50px;height:7px;left:8%;margin-left:6px;}
 #sh-k{width:65px;height:8px;right:6%;margin-right:8px;}
@@ -39,7 +39,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;touch-action:no
 #ann-s{font-family:monospace;font-size:10px;color:#aaa;letter-spacing:3px;margin-top:4px;opacity:0;transition:opacity .2s .1s;}
 #ann-s.s{opacity:1;}
 #block-ind{display:none;}
-#ctrl{position:fixed;bottom:0;left:0;right:0;background:#fafafa;border-top:1px solid #e8e8e8;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px 16px;}
+#ctrl{position:fixed;bottom:0;left:0;right:0;background:#fafafa;border-top:1px solid #e8e8e8;display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px 10px 16px;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;}
 .cc{display:flex;flex-direction:column;gap:7px;}
 .brow{display:flex;gap:7px;}
 .gb{flex:1;height:52px;background:#f0f0f0;border:1px solid #d8d8d8;color:#555;font-family:monospace;font-size:10px;
@@ -124,7 +124,7 @@ const ri=$('ri'),ki=$('ki'),arena=$('arena'),fx=$('fx');
 // ── STATE MACHINE ────────────────────────────────────────────
 let STATE='idle', KSTATE='idle';
 let G={
-  hp:[100,100],t:60,over:false,
+  hp:[100,160],t:60,over:false,
   x:10,onGround:true,jumping:false,
   holdL:false,holdR:false,blocking:false,
   animInt:null,kAnimInt:null,moveInt:null,gameInt:null,aiTO:null,
