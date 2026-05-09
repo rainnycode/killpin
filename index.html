@@ -211,7 +211,7 @@ function enter(s){
 // ── ATTACK DAMAGE ─────────────────────────────────────────────
 function applyKingDmg(){
   if(G.over)return;
-  if(G.x<38&&G.pendingDmg.type!=='special'){announce('TOO FAR','move right');return;}
+  if(Math.abs(G.x-62)>22){announce('TOO FAR','move right');return;}
   const d=G.pendingDmg.min+Math.floor(Math.random()*(G.pendingDmg.max-G.pendingDmg.min+1));
   flash(.18);shake('light');
   spawnFX('72%','38%','spark');
