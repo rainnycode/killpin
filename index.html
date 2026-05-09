@@ -202,7 +202,7 @@ function enter(s){
     case 'down':
       if(G.animInt){clearInterval(G.animInt);G.animInt=null;}
       ri.src=SPR.r.down[0];
-      ri.style.transform='rotate(-90deg)';
+      ri.style.transform='rotate(-90deg) scaleX(-1)';
       ri.style.transformOrigin='center bottom';
       break;
   }
