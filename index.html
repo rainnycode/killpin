@@ -404,7 +404,12 @@ function announce(txt,sub,cb){
   at.classList.add('s');as.classList.add('s');
   setTimeout(()=>{at.classList.remove('s');as.classList.remove('s');if(cb)setTimeout(cb,250);},1800);
 }
-function showWin(){$('win-sc').classList.add('show');}
+function showWin(){
+  $('win-sc').classList.add('show');
+  setTimeout(()=>{
+    window.location.href='rainn_nudillo_presave_v4.html';
+  },3000);
+}
 function stopAll(){clearInterval(G.gameInt);clearInterval(G.moveInt);clearTimeout(G.aiTO);clearInterval(G.animInt);clearInterval(G.kAnimInt);}
 
 // ── GAME START ────────────────────────────────────────────────
