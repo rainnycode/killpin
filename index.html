@@ -214,7 +214,7 @@ function enter(s){
     case 'down':
       if(G.animInt){clearInterval(G.animInt);G.animInt=null;}
       ri.src=SPR.r.down[0];
-      ri.style.transform='rotate(-90deg) scaleX(-1)';
+      ri.style.transform='rotate(90deg) scaleX(-1)';
       ri.style.transformOrigin='center bottom';
       break;
   }
@@ -340,11 +340,11 @@ function schedAI(){
   G.aiTO=setTimeout(()=>{
     if(!G.over)kingAct();
     schedAI();
-  },500+Math.random()*1000);
+  },300+Math.random()*700);
 }
 function kingAct(){
   if(KSTATE==='atk')return;
-  if(Math.random()<0.55){
+  if(Math.random()<0.75){
     KSTATE='atk';
     playKAnim(SPR.k.atk,8,false,()=>{KSTATE='idle';playKAnim(SPR.k.idle,2,true);});
     setTimeout(()=>{
