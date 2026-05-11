@@ -413,7 +413,7 @@ function showWin(){
   $('win-sc').classList.add('show');
   setTimeout(()=>{
     window.location.href='rainn_nudillo_presave_v4.html';
-  },3000);
+  },1500);
 }
 function stopAll(){clearInterval(G.gameInt);clearInterval(G.moveInt);clearTimeout(G.aiTO);clearInterval(G.animInt);clearInterval(G.kAnimInt);}
 
@@ -459,7 +459,6 @@ setTimeout(()=>{
   ri.src=SPR.r.idle[0];
   enter('idle');
   playKAnim(SPR.k.idle,2,true);
-  announce('FIGHT!','San Francisco, PTY',startGame);
 },400);
 </script>
 </body>
