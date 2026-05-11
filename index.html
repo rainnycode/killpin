@@ -242,7 +242,7 @@ function pb(k){
     enter('jump');
     const el=$('rainn-el');
     el.style.transition='bottom .26s cubic-bezier(.2,1.1,.5,1)';
-    el.style.bottom='calc(27% + 95px)';
+    el.style.bottom='calc(32% + 95px)';
     setTimeout(()=>{el.style.transition='bottom .28s cubic-bezier(.4,0,1,1)';el.style.bottom='20%';},280);
   }
   if(k==='b'&&G.onGround&&['idle','walk'].includes(STATE)){
@@ -435,7 +435,7 @@ function resetGame(){
   stopAll();
   ri.style.transform='';ri.style.transformOrigin='';
   $('rainn-el').style.left='10%';
-  $('rainn-el').style.bottom='27%';
+  $('rainn-el').style.bottom='32%';
   $('rainn-el').style.transition='none';
   $('def-vig').style.opacity='0';
   $('block-ind').classList.remove('on');
