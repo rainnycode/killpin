@@ -335,43 +335,29 @@
 </div>
 
 <script>
-  // Deeplink al botón "Todas las plataformas"
-  // Intenta abrir la app de Amuse; si no está instalada, cae al link web
   document.getElementById('btn-amuse').addEventListener('click', function(e) {
     e.preventDefault();
-
-    var deeplink  = 'amuse://track/rainn-nudillo';
-    var fallback  = 'https://share.amuse.io/track/rainn-nudillo';
-    var fallbackTimer;
-
-    // En iOS/Android: si el deeplink no abre la app en 1.2s, redirige al navegador
-    fallbackTimer = setTimeout(function() {
+    var deeplink = 'amuse://track/rainn-nudillo';
+    var fallback = 'https://share.amuse.io/track/rainn-nudillo';
+    var fallbackTimer = setTimeout(function() {
       window.location.href = fallback;
     }, 1200);
-
-    // Si la página pierde el foco, la app se abrió → cancelar fallback
     window.addEventListener('blur', function onBlur() {
       clearTimeout(fallbackTimer);
       window.removeEventListener('blur', onBlur);
     }, { once: true });
-
-    // Lanzar deeplink
     window.location.href = deeplink;
   });
- // Lanzar deeplink
-  window.location.href = deeplink;
-  });
 
-setInterval(()=>{
-  const el=document.getElementById('title-flip');
-  el.style.transition='opacity 0.3s';
-  el.style.opacity='0';
-  setTimeout(()=>{
-    el.textContent=el.textContent==='nudillo'?'12 de mayo':'nudillo';
-    el.style.opacity='1';
-  },300);
-},1700);
-</script>
+  setInterval(()=>{
+    const el=document.getElementById('title-flip');
+    el.style.transition='opacity 0.3s';
+    el.style.opacity='0';
+    setTimeout(()=>{
+      el.textContent=el.textContent==='nudillo'?'12 de mayo':'nudillo';
+      el.style.opacity='1';
+    },300);
+  },1700);
 </script>
 
 </body>
