@@ -134,7 +134,7 @@ const ri=$('ri'),ki=$('ki'),arena=$('arena'),fx=$('fx');
 // ── STATE MACHINE ────────────────────────────────────────────
 let STATE='idle', KSTATE='idle';
 let G={
-  hp:[100,160],t:60,over:false,
+  hp:[100,200],t:60,over:false,
   x:10,onGround:true,jumping:false,
   holdL:false,holdR:false,blocking:false,
   animInt:null,kAnimInt:null,moveInt:null,gameInt:null,aiTO:null,
@@ -352,6 +352,25 @@ function kingAct(){
         rainnHit(d);
       }
     },300);
+    // 1 de cada 3 veces lanza ráfaga
+    if(Math.random()<0.33){
+      let hits=2+Math.floor(Math.random()*2);
+      for(let i=1;i<=hits;i++){
+        setTimeout(()=>{
+          if(!G.over){
+            KSTATE='atk';
+            playKAnim(SPR.k.atk,8,false,()=>{KSTATE='idle';playKAnim(SPR.k.idle,2,true);});
+            setTimeout(()=>{
+              if(!G.over){
+                const d=9+Math.floor(Math.random()*13);
+                shake(d>16?'heavy':'light');
+                rainnHit(d);
+              }
+            },300);
+          }
+        },i*600);
+      }
+    }
   }
 }
 
