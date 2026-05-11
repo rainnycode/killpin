@@ -354,7 +354,7 @@
     el.style.transition='opacity 0.3s';
     el.style.opacity='0';
     setTimeout(()=>{
-      el.textContent=el.textContent==='nudillo'?'12 de mayo':'nudillo';
+      el.textContent=el.textContent.trim()==='nudillo'?'12 de mayo':'nudillo';
       el.style.opacity='1';
     },300);
   },1700);
