@@ -63,13 +63,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:#fff;touch-action:no
 </style>
 </head>
 <body>
-  <audio id="bgm" src="NudilloBeat.mp3" loop></audio>
+  <audio id="bgm" src="NudilloBeat.mp3" loop playsinline></audio>
   <<div id="start-sc" class="end show">
   <div class="et" style="color:#C94040">KILL KINGPIN</div>
   <div class="es" style="color:#C94040;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;border:2px solid #C94040;padding:10px 14px;animation:blink 1.5s step-start infinite;">⚠ Abre en browser para mejor experiencia</div>
-  <button id="fight-btn" class="eb rb" style="user-select:none;-webkit-user-select:none;opacity:0;pointer-events:none;" onclick="document.getElementById('start-sc').classList.remove('show');document.getElementById('bgm').play();resetGame();">
-    ⚔ FIGHT
-  </button>
+  <button id="fight-btn" class="eb rb" style="user-select:none;-webkit-user-select:none;opacity:0;pointer-events:none;" onclick="document.getElementById('bgm').play();document.getElementById('start-sc').classList.remove('show');resetGame();">
+  ⚔ FIGHT
+</button>
 </div>
   </a>
   <button class="eb rb" onclick="document.getElementById('start-sc').classList.remove('show');resetGame();">
