@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#C94040">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;0,900;1,400&family=DM+Serif+Display:ital@1&family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<title>rainn</title>
+<style>
+  @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+  /* occasional shake — jolts every few seconds */
+  @keyframes shake{
+    0%,100%{transform:translate(0,0);}
+    10%{transform:translate(-2px,1px);}
+    20%{transform:translate(2px,-1px);}
+    30%{transform:translate(-1px,2px);}
+    40%{transform:translate(1px,-2px);}
+    50%{transform:translate(-2px,-1px);}
+    60%{transform:translate(2px,1px);}
+    70%{transform:translate(-1px,-1px);}
+    80%{transform:translate(1px,2px);}
+    90%{transform:translate(-1px,1px);}
+  }
+  @keyframes rain{
+    0%{transform:translateY(-100vh);}
+    100%{transform:translateY(110vh);}
+  }
+  @keyframes floatBin{
+    0%{transform:translateY(110vh) translateX(0);}
+    100%{transform:translateY(-10vh) translateX(20px);}
+  }
+  @keyframes flicker{
+    0%,100%{opacity:1;}
+    92%{opacity:1;}
+    93%{opacity:0.3;}
+    94%{opacity:1;}
+    97%{opacity:0.6;}
+    98%{opacity:1;}
+  }
+
+  *, *::before, *::after {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  :root {
+    --red: #C94040;
+    --black: #0a0a0a;
+    --white: #ffffff;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  html, body {
+    height: 100%;
+    overscroll-behavior: none;
+    background: var(--red);
+    font-family: 'Instrument Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    display: none;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+    padding: calc(44px + var(--safe-top)) 24px calc(32px + var(--safe-bottom));
+    position: relative;
+    overflow: hidden;
+  }
+  .page.active {
+    display: flex;
+    animation: fadeUp 0.35s ease both;
+  }
+
+  /* ─── NUDILLO ─── */
+  #page-nudillo { background: var(--red); }
+
+  .top-header { display:flex;flex-direction:column;gap:3px;margin-bottom:auto; }
+  .top-location { font-size:10px;font-weight:600;letter-spacing:0.22em;color:rgba(255,255,255,0.5);text-transform:uppercase; }
+  .top-sub { font-size:10px;font-weight:400;letter-spacing:0.16em;color:rgba(255,255,255,0.28);text-transform:uppercase; }
+
+  .center-block { width:100%;flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:28px; }
+
+  .tag { display:inline-block;padding:5px 10px;background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:9.5px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:16px;border-radius:1px; }
+
+  .song-title { font-family:'DM Sans',sans-serif;font-size:clamp(80px,23vw,108px);font-weight:500;color:#fff;line-height:0.88;letter-spacing:-0.03em;text-transform:lowercase; }
+
+  .out-now { font-family:'Instrument Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.28em;color:rgba(255,255,255,0.6);text-transform:uppercase;margin-top:12px;margin-left:3px; }
+
+  .song-japanese { font-size:10px;color:rgba(255,255,255,0.32);letter-spacing:0.18em;margin-top:6px;margin-left:3px;font-weight:400; }
+  .artist-name { font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;color:rgba(255,255,255,0.55);margin-top:14px;margin-left:3px;letter-spacing:0.05em;text-transform:lowercase; }
+
+  .binary-line { width:100%;font-family:'Courier New',monospace;font-size:7px;color:rgba(255,255,255,0.13);letter-spacing:0.04em;line-height:1.8;margin:20px 0 16px;word-break:break-all; }
+
+  .cta-section { width:100%;display:flex;flex-direction:column;gap:10px;margin-top:24px; }
+
+  .btn-main { width:100%;padding:18px 20px;background:#fff;color:var(--red);border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:56px;transition:background 0.12s,color 0.12s,transform 0.08s; }
+  .btn-main:active { transform:scale(0.985);background:#f0f0f0; }
+
+  .btn-outline { width:100%;padding:14px 20px;background:transparent;color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.22);font-size:10.5px;font-weight:600;letter-spacing:0.17em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:48px;transition:border-color 0.12s,color 0.12s,transform 0.08s; }
+  .btn-outline:active { transform:scale(0.985);border-color:rgba(255,255,255,0.5);color:#fff; }
+
+  .bottom-bar { width:100%;display:flex;align-items:flex-end;justify-content:space-between;margin-top:32px; }
+  .bottom-left { display:flex;flex-direction:column;gap:3px; }
+  .bottom-brand { font-size:10px;font-weight:600;letter-spacing:0.2em;color:rgba(255,255,255,0.25);text-transform:uppercase; }
+  .bottom-hiring { font-size:8.5px;font-weight:400;letter-spacing:0.14em;color:rgba(255,255,255,0.14);text-transform:uppercase; }
+  .bottom-right { font-family:'DM Serif Display',serif;font-style:italic;font-size:11px;color:rgba(255,255,255,0.18); }
+
+  /* ─── FUCK SPOTIFY ─── */
+  #page-fuckspotify {
+    background: #0a0a0a;
+    color: #fff;
+    animation: flicker 4s infinite;
+  }
+
+  .fs-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:auto; }
+  .fs-back { font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);cursor:pointer;border:none;background:transparent;transition:color 0.15s; }
+  .fs-back:active { color:#fff; }
+
+  .fs-center { flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:24px; }
+
+  /* glitch title */
+  .glitch-wrap {
+    position:relative;
+    margin-bottom:8px;
+    animation: shake 0.3s infinite;
+  }
+  .glitch-title {
+    font-family:'DM Sans',sans-serif;
+    font-size:clamp(40px,11vw,56px);
+    font-weight:900;
+    color:#fff;
+    line-height:0.9;
+    letter-spacing:-0.03em;
+    text-transform:lowercase;
+  }
+
+  .fs-sub { font-size:9px;font-weight:600;letter-spacing:0.22em;color:rgba(255,255,255,0.25);text-transform:uppercase;margin-bottom:24px; }
+
+  .fs-album-img { width:100%;max-width:260px;aspect-ratio:1;object-fit:contain;margin-bottom:20px;align-self:center;filter:drop-shadow(0 0 30px rgba(255,0,68,0.4)) drop-shadow(0 20px 60px rgba(0,0,0,0.8));animation:shake 2.5s infinite; }
+
+  .btn-red { width:100%;padding:18px 20px;background:#C94040;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:56px;transition:opacity 0.12s,transform 0.08s; }
+  .btn-red:active { transform:scale(0.985);opacity:0.85; }
+
+  .btn-ghost-dark { width:100%;padding:14px 20px;background:transparent;color:rgba(255,255,255,0.35);border:1px solid rgba(255,255,255,0.12);font-size:10.5px;font-weight:600;letter-spacing:0.17em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:48px;transition:border-color 0.12s,color 0.12s,transform 0.08s;margin-top:10px; }
+  .btn-ghost-dark:active { transform:scale(0.985);color:#fff;border-color:rgba(255,255,255,0.4); }
+
+  /* ─── DILUVIO / MORE ─── */
+  #page-diluvio {
+    background: #060a10;
+    color: #fff;
+    position: relative;
+  }
+
+  /* rain drops */
+  .rain-container { position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0; }
+  .raindrop { position:absolute;top:-100px;width:1px;background:linear-gradient(to bottom,transparent,rgba(120,180,255,0.4));border-radius:2px;animation:rain linear infinite; }
+
+  /* floating binary */
+  .bin-container { position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0; }
+  .bin-float { position:absolute;bottom:-50px;font-family:'Courier New',monospace;font-size:9px;color:rgba(100,160,255,0.15);animation:floatBin linear infinite;letter-spacing:0.1em; }
+
+  .dil-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:auto;position:relative;z-index:2; }
+  .dil-back { font-size:9px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.3);cursor:pointer;border:none;background:transparent;transition:color 0.15s; }
+  .dil-back:active { color:#fff; }
+
+  .dil-center { flex:1;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:24px;position:relative;z-index:2; }
+
+  .artist-photo { width:100%;max-width:300px;height:280px;object-fit:cover;object-position:top;margin-bottom:20px;align-self:center;filter:brightness(0.7) contrast(1.1) saturate(0.8);border:1px solid rgba(255,255,255,0.07); }
+
+  .dil-name { font-family:'DM Sans',sans-serif;font-size:clamp(52px,14vw,72px);font-weight:900;color:#fff;line-height:0.85;letter-spacing:-0.04em;text-transform:lowercase;margin-bottom:4px; }
+  .dil-tagline { font-size:10px;font-weight:600;letter-spacing:0.2em;color:rgba(100,160,255,0.5);text-transform:uppercase;margin-bottom:20px; }
+
+  .dil-cta { display:flex;flex-direction:column;gap:10px; }
+
+  .btn-spotify { width:100%;padding:18px 20px;background:#1DB954;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:56px;transition:opacity 0.12s,transform 0.08s; }
+  .btn-spotify:active { transform:scale(0.985);opacity:0.85; }
+
+  .btn-apple { width:100%;padding:18px 20px;background:#fc3c44;color:#fff;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:56px;transition:opacity 0.12s,transform 0.08s; }
+  .btn-apple:active { transform:scale(0.985);opacity:0.85; }
+
+  .btn-yt { width:100%;padding:14px 20px;background:#ff0000;color:#fff;border:none;font-size:10.5px;font-weight:600;letter-spacing:0.17em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:48px;transition:opacity 0.12s,transform 0.08s; }
+  .btn-yt:active { transform:scale(0.985);opacity:0.85; }
+
+  .btn-sc { width:100%;padding:14px 20px;background:#ff5500;color:#fff;border:none;font-size:10.5px;font-weight:600;letter-spacing:0.17em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:48px;transition:opacity 0.12s,transform 0.08s; }
+  .btn-sc:active { transform:scale(0.985);opacity:0.85; }
+
+  .btn-ghost-blue { width:100%;padding:14px 20px;background:transparent;color:rgba(100,160,255,0.4);border:1px solid rgba(100,160,255,0.15);font-size:10.5px;font-weight:600;letter-spacing:0.17em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:flex;align-items:center;justify-content:space-between;min-height:48px;transition:border-color 0.12s,color 0.12s,transform 0.08s; }
+  .btn-ghost-blue:active { transform:scale(0.985);color:rgba(100,160,255,0.9);border-color:rgba(100,160,255,0.4); }
+
+  @media(min-height:800px){
+    .page{padding-top:calc(52px + var(--safe-top));}
+    .center-block,.fs-center,.dil-center{padding-bottom:36px;}
+    .cta-section{margin-top:32px;}
+    .bottom-bar{margin-top:48px;}
+  }
+  @media(max-height:668px){
+    .page{padding-top:calc(32px + var(--safe-top));}
+    .binary-line{margin:10px 0 10px;}
+    .song-title{font-size:68px;}
+    .fs-album-img{max-width:180px;}
+    .artist-photo{height:200px;}
+  }
+</style>
+</head>
+<body>
+
+<!-- SCARY OVERLAY -->
+<div id="scary-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#000;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+  <pre id="scary-binary" style="font-family:'Courier New',monospace;font-size:11px;color:#ff0000;opacity:0.9;text-align:center;line-height:1.4;padding:20px;white-space:pre-wrap;word-break:break-all;"></pre>
+</div>
+
+<!-- ══ PAGE 1: NUDILLO ══ -->
+<div id="page-nudillo" class="page active">
+  <div class="top-header">
+    <div class="top-location">San Francisco, PTY</div>
+    <div class="top-sub">out now</div>
+  </div>
+
+  <div class="center-block">
+    <div class="tag">New single</div>
+    <div class="song-title">nudillo</div>
+    <div class="out-now">— out now</div>
+    <div class="song-japanese">ナックル</div>
+    <div class="artist-name">rainn</div>
+
+    <div class="binary-line">01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111 00100000 01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111</div>
+
+    <div class="cta-section">
+      <a class="btn-main" href="https://tr.ee/yVxLJ7ZOjR" target="_blank" rel="noopener">
+        Listen Now <span>→</span>
+      </a>
+      <button class="btn-outline" onclick="scaryGoTo('page-fuckspotify')" style="animation:shake 0.4s infinite;">
+        FUCK SPOTIFY <span>↗</span>
+      </button>
+      <button class="btn-outline" onclick="goTo('page-diluvio')">
+        Más de rainn <span>↗</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="bottom-bar">
+    <div class="bottom-left">
+      <div class="bottom-brand">1080 Colorado</div>
+      <div class="bottom-hiring">now hiring</div>
+    </div>
+    <div class="bottom-right">panama</div>
+  </div>
+</div>
+
+<!-- ══ PAGE 2: FUCK SPOTIFY ══ -->
+<div id="page-fuckspotify" class="page">
+  <div class="rain-container" id="rain-fs"></div>
+  <div class="fs-top">
+    <button class="fs-back" onclick="goTo('page-nudillo')">← back</button>
+    <span style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.15);">rainn</span>
+  </div>
+
+  <div class="fs-center">
+    <img class="fs-album-img" src="knuckles.jpg" alt="Fuck Spotify">
+    <div class="glitch-wrap">
+      <div class="glitch-title" data-text="FUCK SPOTIFY">FUCK SPOTIFY</div>
+    </div>
+    <div class="fs-sub">ÁLBUM · RAINN · DESCARGA GRATIS</div>
+    <a class="btn-red" href="https://untitled.stream/library/project/bkW8Wr4HJaKpG4paiKjAI" target="_blank" rel="noopener">
+      Download álbum <span>↓</span>
+    </a>
+    <button class="btn-ghost-dark" onclick="goTo('page-nudillo')">← volver</button>
+  </div>
+</div>
+
+<!-- ══ PAGE 3: MÁS DE RAINN ══ -->
+<div id="page-diluvio" class="page">
+
+  <!-- rain -->
+  <div class="rain-container" id="rain"></div>
+  <!-- binary -->
+  <div class="bin-container" id="binaries"></div>
+
+  <div class="dil-top">
+    <button class="dil-back" onclick="goTo('page-nudillo')">← back</button>
+    <span style="font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.12);">rainn</span>
+  </div>
+
+  <div class="dil-center">
+    <img class="artist-photo" src="data:image/jpeg;base64,PHOTO_PLACEHOLDER" alt="rainn" id="artist-img">
+    <div class="dil-name">rainn</div>
+    <div class="dil-tagline">San Francisco · PTY · 1080 Colorado</div>
+    <div class="dil-cta">
+      <a class="btn-spotify" href="https://open.spotify.com/artist/1jttYzPALeHiMwY7YkP1ke?si=xqfu92M3RN-iTp9kCp20HQ" target="_blank" rel="noopener">
+        Spotify <span>♫</span>
+      </a>
+      <a class="btn-apple" href="https://music.apple.com/pa/artist/rainn/1799810690?l=en-GB" target="_blank" rel="noopener">
+        Apple Music <span>♪</span>
+      </a>
+      <a class="btn-yt" href="https://www.youtube.com/watch?v=zl279zbyw7U" target="_blank" rel="noopener">
+        YouTube <span>▶</span>
+      </a>
+      <a class="btn-sc" href="https://soundcloud.com/rainn-883671712" target="_blank" rel="noopener">
+        SoundCloud <span>☁</span>
+      </a>
+      <button class="btn-ghost-blue" onclick="goTo('page-nudillo')">← nudillo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function goTo(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function scaryGoTo(id) {
+    const overlay = document.getElementById('scary-overlay');
+    const binaryEl = document.getElementById('scary-binary');
+    overlay.style.display = 'flex';
+    overlay.style.background = '#000';
+    binaryEl.textContent = '';
+
+    const chars = ['0','1','0','1','0','1','1','0','0','1','☠','⚠','█','▓','▒','░','✖','⛧','⊗','∅','◈','▲','01','10','111','000','101','0xDEAD','NULL','ERR'];
+    let output = '';
+    let i = 0;
+    const total = 80;
+
+    // Progressive typing
+    const typeInterval = setInterval(() => {
+      const ch = chars[Math.floor(Math.random() * chars.length)];
+      output += ch + ' ';
+      if(i % 10 === 9) output += '\n';
+      binaryEl.textContent = output;
+      i++;
+      if(i >= total) {
+        clearInterval(typeInterval);
+        // Flash sequence after typing
+        let flashes = 0;
+        const flashInterval = setInterval(() => {
+          overlay.style.background = flashes % 2 === 0 ? '#fff' : '#000';
+          binaryEl.style.color = flashes % 2 === 0 ? '#000' : '#ff0000';
+          flashes++;
+          if(flashes > 8) {
+            clearInterval(flashInterval);
+            overlay.style.background = '#000';
+            setTimeout(() => {
+              overlay.style.display = 'none';
+              binaryEl.textContent = '';
+              goTo(id);
+            }, 100);
+          }
+        }, 40);
+      }
+    }, 18);
+  }
+
+  // ── Rain for Fuck Spotify ──
+  const rainFs = document.getElementById('rain-fs');
+  for(let i = 0; i < 60; i++){
+    const drop = document.createElement('div');
+    drop.className = 'raindrop';
+    const left = Math.random() * 100;
+    const height = 40 + Math.random() * 80;
+    const duration = 0.6 + Math.random() * 1.2;
+    const delay = Math.random() * 2;
+    const opacity = 0.15 + Math.random() * 0.3;
+    drop.style.cssText = `left:${left}%;height:${height}px;animation-duration:${duration}s;animation-delay:-${delay}s;opacity:${opacity};background:linear-gradient(to bottom,transparent,rgba(255,50,50,0.5));`;
+    rainFs.appendChild(drop);
+  }
+
+  // ── Rain effect ──
+  const rainContainer = document.getElementById('rain');
+  for(let i = 0; i < 60; i++){
+    const drop = document.createElement('div');
+    drop.className = 'raindrop';
+    const left = Math.random() * 100;
+    const height = 40 + Math.random() * 80;
+    const duration = 0.6 + Math.random() * 1.2;
+    const delay = Math.random() * 2;
+    const opacity = 0.2 + Math.random() * 0.5;
+    drop.style.cssText = `left:${left}%;height:${height}px;animation-duration:${duration}s;animation-delay:-${delay}s;opacity:${opacity};background:linear-gradient(to bottom,transparent,rgba(120,180,255,0.5));`;
+    rainContainer.appendChild(drop);
+  }
+
+  // ── Floating binary ──
+  const binContainer = document.getElementById('binaries');
+  const binaryStrings = ['01110010','01100001','01101001','01101110','01101110','00100000','01101110','01110101','01100100','01101001','01101100','01101100','01101111','11000000','10101010','01010101','11111111','00000000'];
+  for(let i = 0; i < 18; i++){
+    const el = document.createElement('div');
+    el.className = 'bin-float';
+    const left = Math.random() * 95;
+    const duration = 8 + Math.random() * 12;
+    const delay = Math.random() * 10;
+    el.textContent = binaryStrings[Math.floor(Math.random() * binaryStrings.length)];
+    el.style.cssText = `left:${left}%;animation-duration:${duration}s;animation-delay:-${delay}s;`;
+    binContainer.appendChild(el);
+  }
+
+  // ── Load artist photo from uploaded image ──
+  // The photo needs to be uploaded to GitHub as "rainn-photo.jpg"
+  // then change the src below
+  const img = document.getElementById('artist-img');
+  img.src = 'rainn-photo.jpg';
+  img.onerror = () => { img.style.display = 'none'; };
+</script>
+
+</body>
+</html>
