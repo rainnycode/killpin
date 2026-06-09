@@ -50,6 +50,11 @@
     -webkit-user-select: none;
   }
 
+  input, textarea {
+    user-select: text;
+    -webkit-user-select: text;
+  }
+
   :root {
     --red: #C94040;
     --black: #0a0a0a;
@@ -194,12 +199,16 @@
   .popup-phone-row {
     display: flex;
     gap: 10px;
+    align-items: flex-end;
   }
   .popup-code {
-    width: 72px;
+    width: 70px;
     flex-shrink: 0;
   }
-  .popup-num { flex: 1; }
+  .popup-num { 
+    flex: 1;
+    min-width: 0;
+  }
   .popup-submit {
     width: 100%;
     padding: 18px;
@@ -466,8 +475,8 @@
         <input type="text" name="nombre" placeholder="Nombre *" required autocomplete="off"/>
         <input type="email" name="email" placeholder="Email *" required autocomplete="off"/>
         <div class="popup-phone-row">
-          <input type="text" class="popup-code popup-form" name="codigo" placeholder="+507" maxlength="5" autocomplete="off"/>
-          <input type="tel" class="popup-num" name="telefono" placeholder="Teléfono (opcional)" autocomplete="off"/>
+          <input type="text" class="popup-code" name="codigo" placeholder="+507" maxlength="6" autocomplete="off"/>
+          <input type="text" class="popup-num" name="telefono" placeholder="Teléfono (opcional)" autocomplete="off" maxlength="15" inputmode="numeric"/>
         </div>
         <input type="text" name="cancion" placeholder="Canción favorita de rainn (opcional)" autocomplete="off"/>
         <button type="submit" class="popup-submit">¿Está lloviendo? →</button>
