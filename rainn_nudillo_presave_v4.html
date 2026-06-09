@@ -475,10 +475,32 @@
         <input type="text" name="nombre" placeholder="Nombre *" required autocomplete="off"/>
         <input type="email" name="email" placeholder="Email *" required autocomplete="off"/>
         <div class="popup-phone-row">
-          <input type="text" class="popup-code" name="codigo" placeholder="+507" maxlength="6" autocomplete="off"/>
-          <input type="text" class="popup-num" name="telefono" placeholder="Teléfono (opcional)" autocomplete="off" maxlength="15" inputmode="numeric"/>
+          <select class="popup-code" name="codigo" style="background:transparent;color:rgba(255,255,255,0.6);border:none;border-bottom:1px solid rgba(255,255,255,0.2);padding:14px 0;font-family:'Instrument Sans',sans-serif;font-size:13px;outline:none;width:90px;flex-shrink:0;-webkit-appearance:none;border-radius:0;">
+            <option value="+507" style="background:#C94040;">🇵🇦 +507</option>
+            <option value="+1" style="background:#C94040;">🇺🇸 +1</option>
+            <option value="+52" style="background:#C94040;">🇲🇽 +52</option>
+            <option value="+57" style="background:#C94040;">🇨🇴 +57</option>
+            <option value="+58" style="background:#C94040;">🇻🇪 +58</option>
+            <option value="+503" style="background:#C94040;">🇸🇻 +503</option>
+            <option value="+502" style="background:#C94040;">🇬🇹 +502</option>
+            <option value="+506" style="background:#C94040;">🇨🇷 +506</option>
+            <option value="+504" style="background:#C94040;">🇭🇳 +504</option>
+            <option value="+505" style="background:#C94040;">🇳🇮 +505</option>
+            <option value="+51" style="background:#C94040;">🇵🇪 +51</option>
+            <option value="+56" style="background:#C94040;">🇨🇱 +56</option>
+            <option value="+54" style="background:#C94040;">🇦🇷 +54</option>
+            <option value="+55" style="background:#C94040;">🇧🇷 +55</option>
+            <option value="+34" style="background:#C94040;">🇪🇸 +34</option>
+            <option value="+44" style="background:#C94040;">🇬🇧 +44</option>
+            <option value="+33" style="background:#C94040;">🇫🇷 +33</option>
+            <option value="+49" style="background:#C94040;">🇩🇪 +49</option>
+            <option value="+81" style="background:#C94040;">🇯🇵 +81</option>
+            <option value="+82" style="background:#C94040;">🇰🇷 +82</option>
+            <option value="+86" style="background:#C94040;">🇨🇳 +86</option>
+            <option value="+other" style="background:#C94040;">🌍 Otro</option>
+          </select>
+          <input type="text" class="popup-num" name="telefono" placeholder="Teléfono (opcional)" autocomplete="off" inputmode="numeric"/>
         </div>
-        <input type="text" name="cancion" placeholder="Canción favorita de rainn (opcional)" autocomplete="off"/>
         <button type="submit" class="popup-submit">¿Está lloviendo? →</button>
       </form>
     </div>
