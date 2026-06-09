@@ -115,7 +115,144 @@
   .bottom-hiring { font-size:8.5px;font-weight:400;letter-spacing:0.14em;color:rgba(255,255,255,0.14);text-transform:uppercase; }
   .bottom-right { font-family:'DM Serif Display',serif;font-style:italic;font-size:11px;color:rgba(255,255,255,0.18); }
 
-  /* ─── FUCK SPOTIFY ─── */
+  /* ─── POPUP ─── */
+  #popup-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0,0,0,0.85);
+    align-items: flex-end;
+    justify-content: center;
+    animation: fadeUp 0.3s ease both;
+  }
+  #popup-overlay.show {
+    display: flex;
+  }
+  #popup-box {
+    width: 100%;
+    max-width: 430px;
+    background: var(--red);
+    padding: 32px 24px calc(32px + var(--safe-bottom));
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 0;
+  }
+  .popup-eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.28em;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .popup-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .popup-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  .popup-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .popup-form input {
+    width: 100%;
+    padding: 14px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    border-radius: 0;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+    margin-bottom: 4px;
+  }
+  .popup-form input::placeholder {
+    color: rgba(255,255,255,0.28);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .popup-form input:focus {
+    border-bottom-color: rgba(255,255,255,0.7);
+  }
+  .popup-phone-row {
+    display: flex;
+    gap: 10px;
+  }
+  .popup-code {
+    width: 72px;
+    flex-shrink: 0;
+  }
+  .popup-num { flex: 1; }
+  .popup-submit {
+    width: 100%;
+    padding: 18px;
+    background: #fff;
+    color: var(--red);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 0.08s, opacity 0.12s;
+  }
+  .popup-submit:active { transform: scale(0.98); opacity: 0.9; }
+  .popup-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 0;
+    text-align: center;
+  }
+  .popup-success-icon {
+    font-size: 40px;
+  }
+  .popup-success-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .popup-success-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+  .popup-close {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: rgba(255,255,255,0.4);
+    border: 1px solid rgba(255,255,255,0.15);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: color 0.12s, border-color 0.12s;
+  }
+  .popup-close:active { color: #fff; border-color: rgba(255,255,255,0.4); }
   #page-fuckspotify {
     background: #0a0a0a;
     color: #fff;
@@ -240,7 +377,7 @@
         Listen Now <span>→</span>
       </a>
       <button class="btn-outline" onclick="scaryGoTo('page-fuckspotify')" style="animation:shake 0.4s infinite;">
-        FUCK SPOTIFY <span>↗</span>
+        ALBUM EXCLUSIVO <span>↗</span>
       </button>
       <button class="btn-outline" onclick="goTo('page-diluvio')">
         Más de rainn <span>↗</span>
@@ -313,12 +450,91 @@
   </div>
 </div>
 
+<!-- ══ SCARY OVERLAY ══ -->
+<div id="scary-overlay" style="display:none;position:fixed;inset:0;z-index:9999;background:#000;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+  <pre id="scary-binary" style="font-family:'Courier New',monospace;font-size:11px;color:#ff0000;opacity:0.9;text-align:center;line-height:1.4;padding:20px;white-space:pre-wrap;word-break:break-all;"></pre>
+</div>
+
+<!-- ══ EMAIL POPUP ══ -->
+<div id="popup-overlay">
+  <div id="popup-box">
+    <div id="popup-form-content">
+      <div class="popup-eyebrow">1080 Colorado · Now Hiring</div>
+      <div class="popup-title">Sign Up</div>
+      <div class="popup-sub">Acceso anticipado a rainn + experiencias e invitaciones exclusivas.</div>
+      <form class="popup-form" id="squad-form">
+        <input type="text" name="nombre" placeholder="Nombre *" required autocomplete="off"/>
+        <input type="email" name="email" placeholder="Email *" required autocomplete="off"/>
+        <div class="popup-phone-row">
+          <input type="text" class="popup-code popup-form" name="codigo" placeholder="+507" maxlength="5" autocomplete="off"/>
+          <input type="tel" class="popup-num" name="telefono" placeholder="Teléfono (opcional)" autocomplete="off"/>
+        </div>
+        <input type="text" name="cancion" placeholder="Canción favorita de rainn (opcional)" autocomplete="off"/>
+        <button type="submit" class="popup-submit">¿Está lloviendo? →</button>
+      </form>
+    </div>
+    <div class="popup-success" id="popup-success">
+      <div class="popup-success-icon">⚔</div>
+      <div class="popup-success-title">¿Está lloviendo?</div>
+      <div class="popup-success-sub">Ya eres parte de 1080 Colorado.<br>Early access · Exclusives · Rainn.</div>
+      <button class="popup-close" onclick="closePopup()">Continuar →</button>
+    </div>
+  </div>
+</div>
+
 <script>
   function goTo(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     window.scrollTo(0, 0);
   }
+
+  // ── POPUP ──
+  function showPopup() {
+    document.getElementById('popup-overlay').classList.add('show');
+  }
+
+  function closePopup() {
+    document.getElementById('popup-overlay').classList.remove('show');
+  }
+
+  // Show popup after 4 seconds on page load
+  setTimeout(() => {
+    if(!localStorage.getItem('rainn_signed')) {
+      showPopup();
+    }
+  }, 1000);
+
+  // Form submit → Formspree
+  document.getElementById('squad-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('.popup-submit');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch('https://formspree.io/f/mwvjbowa', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if(res.ok) {
+        localStorage.setItem('rainn_signed', '1');
+        document.getElementById('popup-form-content').style.display = 'none';
+        document.getElementById('popup-success').style.display = 'flex';
+      } else {
+        btn.textContent = 'Error — intenta de nuevo';
+        btn.disabled = false;
+      }
+    } catch(err) {
+      btn.textContent = 'Error — intenta de nuevo';
+      btn.disabled = false;
+    }
+  });
 
   function scaryGoTo(id) {
     const overlay = document.getElementById('scary-overlay');
