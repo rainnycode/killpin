@@ -505,7 +505,7 @@
       </form>
     </div>
     <div class="popup-success" id="popup-success">
-      <div class="popup-success-icon">⚔</div>
+      <div class="popup-success-icon">🌧️</div>
       <div class="popup-success-title">¿Está lloviendo?</div>
       <div class="popup-success-sub">Ya eres parte de 1080 Colorado.<br>Early access · Exclusives · Rainn.</div>
       <button class="popup-close" onclick="closePopup()">Continuar →</button>
@@ -544,7 +544,15 @@
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
-    const data = new FormData(form);
+    // Combine area code + phone number
+    const codigo = form.querySelector('[name="codigo"]').value;
+    const telefono = form.querySelector('[name="telefono"]').value;
+    const telefonoCompleto = telefono ? codigo + ' ' + telefono : '';
+
+    const data = new FormData();
+    data.append('nombre', form.querySelector('[name="nombre"]').value);
+    data.append('email', form.querySelector('[name="email"]').value);
+    data.append('telefono', telefonoCompleto);
 
     try {
       const res = await fetch('https://formspree.io/f/mwvjbowa', {
