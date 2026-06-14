@@ -9,6 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;0,900;1,400&family=DM+Serif+Display:ital@1&family=Instrument+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <title>rainn</title>
 <style>
+  @keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   @keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
 
   /* occasional shake — jolts every few seconds */
@@ -262,6 +267,48 @@
     transition: color 0.12s, border-color 0.12s;
   }
   .popup-close:active { color: #fff; border-color: rgba(255,255,255,0.4); }
+
+  .popup-later {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: rgba(255,255,255,0.25);
+    border: none;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: color 0.15s;
+  }
+  .popup-later:active { color: rgba(255,255,255,0.5); }
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: rgba(255,255,255,0.3);
+    border: none;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: color 0.15s;
+  }
+  .popup-later:active { color: rgba(255,255,255,0.6); }
+
+  .popup-gate-msg {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
   #page-fuckspotify {
     background: #0a0a0a;
     color: #fff;
@@ -373,7 +420,37 @@
   </div>
 
   <div class="center-block">
-    <div class="tag">New single</div>
+    <div class="tag" style="display:none;">New single</div>
+
+    <!-- NEWS TICKER -->
+    <div style="width:100%;overflow:hidden;margin-bottom:16px;border-top:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);padding:6px 0;">
+      <div style="display:flex;gap:0;white-space:nowrap;animation:tickerScroll 28s linear infinite;">
+        <a href="https://tr.ee/yVxLJ7ZOjR" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.7);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [ALERTA] — operativo "nudillo" activo · target localizado en Spotify y Apple Music
+        </a>
+        <a href="https://www.youtube.com/watch?v=4ILyGzRuSNM&list=PLY9S6W7oPGATvAtLqVgLyLRUVGZ2x5_wc" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.4);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [INTEL] — agente rainn tiene 2 archivos clasificados en YouTube: "Robinson Cano" &amp; "Carta Para Bulma"
+        </a>
+        <a href="https://www.instagram.com/p/DY-qU2OvQWr/" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.4);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [CLASIFICADO] — rainn ha subido un archivo clasificado a Instagram · acceso restringido
+        </a>
+        <a href="https://www.instagram.com/1080colorado/" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.4);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [1080 COLORADO] · San Francisco, PTY · Now Hiring · Bounty Hunters only
+        </a>
+        <a href="https://tr.ee/yVxLJ7ZOjR" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.7);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [ALERTA] — operativo "nudillo" activo · target localizado en Spotify y Apple Music
+        </a>
+        <a href="https://www.youtube.com/watch?v=4ILyGzRuSNM&list=PLY9S6W7oPGATvAtLqVgLyLRUVGZ2x5_wc" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.4);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [INTEL] — agente rainn tiene 2 archivos clasificados en YouTube: "Robinson Cano" &amp; "Carta Para Bulma"
+        </a>
+        <a href="https://www.instagram.com/p/DY-qU2OvQWr/" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.4);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [CLASIFICADO] — rainn ha subido un archivo clasificado a Instagram · acceso restringido
+        </a>
+        <a href="https://www.instagram.com/1080colorado/" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.4);padding-right:48px;text-decoration:none;cursor:pointer;">
+          [1080 COLORADO] · San Francisco, PTY · Now Hiring · Bounty Hunters only
+        </a>
+      </div>
+    </div>
     <div class="song-title">Album<br>Exclusivo</div>
     <div class="out-now">— out now</div>
     <div class="song-japanese">アルバム · 限定</div>
@@ -382,7 +459,7 @@
     <div class="binary-line">01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111 00100000 01110010 01100001 01101001 01101110 01101110 00100000 01101110 01110101 01100100 01101001 01101100 01101100 01101111</div>
 
     <div class="cta-section">
-      <button class="btn-main" onclick="scaryGoTo('page-fuckspotify')" style="animation:shake 0.4s infinite;">
+      <button class="btn-main" onclick="checkAndGoAlbum()" style="animation:shake 0.4s infinite;">
         ALBUM EXCLUSIVO <span>↓</span>
       </button>
       <button class="btn-outline" onclick="goTo('page-diluvio')">
@@ -502,6 +579,8 @@
           <input type="text" class="popup-num" name="telefono" placeholder="Teléfono (opcional)" autocomplete="off" inputmode="numeric"/>
         </div>
         <button type="submit" class="popup-submit">¿Está lloviendo? →</button>
+        <button type="button" class="popup-later" onclick="laterPopup()" id="popup-later-btn">Later</button>
+        <button type="button" class="popup-later" onclick="closePopup()" id="popup-back-btn" style="display:none;">← Volver</button>
       </form>
     </div>
     <div class="popup-success" id="popup-success">
@@ -521,7 +600,23 @@
   }
 
   // ── POPUP ──
-  function showPopup() {
+  let popupMode = 'optional'; // 'optional' or 'required'
+
+  function showPopup(mode = 'optional') {
+    popupMode = mode;
+    const laterBtn = document.getElementById('popup-later-btn');
+    const backBtn = document.getElementById('popup-back-btn');
+    const eyebrow = document.querySelector('.popup-eyebrow');
+    
+    if(mode === 'required') {
+      laterBtn.style.display = 'none';
+      backBtn.style.display = 'block';
+      eyebrow.textContent = '🔒 Acceso exclusivo · Sign up requerido';
+    } else {
+      laterBtn.style.display = 'block';
+      backBtn.style.display = 'none';
+      eyebrow.textContent = '1080 Colorado · Now Hiring';
+    }
     document.getElementById('popup-overlay').classList.add('show');
   }
 
@@ -529,10 +624,22 @@
     document.getElementById('popup-overlay').classList.remove('show');
   }
 
-  // Show popup after 4 seconds on page load
+  function laterPopup() {
+    closePopup();
+  }
+
+  function checkAndGoAlbum() {
+    if(localStorage.getItem('rainn_signed')) {
+      scaryGoTo('page-fuckspotify');
+    } else {
+      showPopup('required');
+    }
+  }
+
+  // Show popup after 1 second on page load
   setTimeout(() => {
     if(!localStorage.getItem('rainn_signed')) {
-      showPopup();
+      showPopup('optional');
     }
   }, 1000);
 
