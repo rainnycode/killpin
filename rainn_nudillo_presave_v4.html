@@ -423,8 +423,8 @@
     <div class="tag" style="display:none;">New single</div>
 
     <!-- NEWS TICKER -->
-    <div style="width:100%;overflow:hidden;margin-bottom:16px;border-top:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);padding:6px 0;">
-      <div style="display:flex;gap:0;white-space:nowrap;animation:tickerScroll 28s linear infinite;">
+    <div id="ticker-wrap" style="width:100%;overflow:hidden;margin-bottom:16px;border-top:1px solid rgba(255,255,255,0.15);border-bottom:1px solid rgba(255,255,255,0.15);padding:6px 0;cursor:grab;">
+      <div id="ticker-inner" style="display:flex;gap:0;white-space:nowrap;animation:tickerScroll 10s linear infinite;">
         <a href="https://tr.ee/yVxLJ7ZOjR" target="_blank" rel="noopener" style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:0.08em;color:rgba(255,255,255,0.7);padding-right:48px;text-decoration:none;cursor:pointer;">
           [ALERTA] — operativo "nudillo" activo · target localizado en Spotify y Apple Music
         </a>
@@ -722,6 +722,51 @@
       }
     }, 18);
   }
+
+  // ── TICKER DRAG ──
+  const tickerWrap = document.getElementById('ticker-wrap');
+  const tickerInner = document.getElementById('ticker-inner');
+  let isDragging = false;
+  let startX = 0;
+  let currentX = 0;
+
+  tickerWrap.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX - currentX;
+    tickerInner.style.animationPlayState = 'paused';
+    tickerWrap.style.cursor = 'grabbing';
+  }, {passive: true});
+
+  tickerWrap.addEventListener('touchmove', (e) => {
+    if(!isDragging) return;
+    currentX = e.touches[0].clientX - startX;
+    tickerInner.style.transform = `translateX(${currentX}px)`;
+  }, {passive: true});
+
+  tickerWrap.addEventListener('touchend', () => {
+    isDragging = false;
+    tickerInner.style.animationPlayState = 'running';
+    tickerWrap.style.cursor = 'grab';
+  });
+
+  tickerWrap.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX - currentX;
+    tickerInner.style.animationPlayState = 'paused';
+    tickerWrap.style.cursor = 'grabbing';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if(!isDragging) return;
+    currentX = e.clientX - startX;
+    tickerInner.style.transform = `translateX(${currentX}px)`;
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    tickerInner.style.animationPlayState = 'running';
+    tickerWrap.style.cursor = 'grab';
+  });
 
   // ── Rain for Fuck Spotify ──
   const rainFs = document.getElementById('rain-fs');
