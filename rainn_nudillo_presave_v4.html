@@ -658,7 +658,8 @@
     const payload = {
       nombre: form.querySelector('[name="nombre"]').value,
       email: form.querySelector('[name="email"]').value,
-      telefono: telefonoCompleto
+      telefono: telefonoCompleto,
+      fecha: new Date().toLocaleDateString('es-PA', { year: 'numeric', month: 'short', day: 'numeric' })
     };
 
     try {
