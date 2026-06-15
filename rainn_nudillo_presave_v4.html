@@ -643,7 +643,7 @@
     }
   }, 1000);
 
-  // Form submit → Formspree
+  // Form submit → Supabase
   document.getElementById('squad-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = e.target;
@@ -651,32 +651,40 @@
     btn.textContent = 'Enviando...';
     btn.disabled = true;
 
-    // Combine area code + phone number
     const codigo = form.querySelector('[name="codigo"]').value;
     const telefono = form.querySelector('[name="telefono"]').value;
     const telefonoCompleto = telefono ? codigo + ' ' + telefono : '';
 
-    const data = new FormData();
-    data.append('nombre', form.querySelector('[name="nombre"]').value);
-    data.append('email', form.querySelector('[name="email"]').value);
-    data.append('telefono', telefonoCompleto);
+    const payload = {
+      nombre: form.querySelector('[name="nombre"]').value,
+      email: form.querySelector('[name="email"]').value,
+      telefono: telefonoCompleto
+    };
 
     try {
-      const res = await fetch('https://formspree.io/f/mwvjbowa', {
+      const res = await fetch('https://gcqrmufhssizjverddxn.supabase.co/rest/v1/signups', {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'sb_publishable_MIHDsCdrFz--Pkrks0TQng_TnMQ83sl',
+          'Authorization': 'Bearer sb_publishable_MIHDsCdrFz--Pkrks0TQng_TnMQ83sl',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
       });
 
-      if(res.ok) {
+      if(res.ok || res.status === 201) {
         localStorage.setItem('rainn_signed', '1');
         document.getElementById('popup-form-content').style.display = 'none';
         document.getElementById('popup-success').style.display = 'flex';
       } else {
+        const err = await res.json();
+        console.error(err);
         btn.textContent = 'Error — intenta de nuevo';
         btn.disabled = false;
       }
     } catch(err) {
+      console.error(err);
       btn.textContent = 'Error — intenta de nuevo';
       btn.disabled = false;
     }
